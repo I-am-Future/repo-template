@@ -1,0 +1,75 @@
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+version = "0.1.0"
+name = "mypackage"
+description = "A cool Python package"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Xuanbin Peng", email = "xuanbin.peng@gmail.com" },
+    { name = "Lai Wei", email = "laiwei.cuhksz@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+# Core runtime dependencies (always installed)
+dependencies = [
+    # torch is intentionally NOT here — users select a cuda extra below
+]
+
+# ==============================================================================
+# OPTIONAL DEPENDENCIES
+# ==============================================================================
+[project.optional-dependencies]
+
+
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]
+
+
+# ==============================================================================
+# ENTRY POINTS
+# ==============================================================================
+[project.scripts]
+# mycli = "mypackage.cli:main"   # installs a `mycli` command in PATH
+
+# ==============================================================================
+# UV — PYTORCH INDEX SOURCES
+# ==============================================================================
+# See README.md
+
+# ==============================================================================
+# UV — DEPENDENCY SOURCES
+# ==============================================================================
+[tool.uv.sources]
+
+# PyTorch family — See README.md. route to the matching CUDA index based on selected extra
+
+# Local packages — useful for monorepos, sibling directories, or submodules
+# myutils = { path = "../myutils",           editable = true }   # sibling dir
+# privlib = { path = "./submodules/privlib", editable = true }   # git submodule
+
+# ==============================================================================
+# TOOL CONFIGS — everything else that shares this file
+# Hatchling ignores all [tool.*] sections except [tool.hatch.*]
+# ==============================================================================
+[tool.hatch.build.targets.wheel]
+sources = ["src"]
+
+[tool.ruff]
+line-length = 120
+lint.select = ["E", "F", "I"]   # pycodestyle + pyflakes + isort
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --tb=short"
